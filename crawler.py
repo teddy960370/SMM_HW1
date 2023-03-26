@@ -34,9 +34,10 @@ def html2Json(url : str):
         title = ''
         date = ''
         
-        author = base_info[0].select('span.article-meta-value')[0].string if base_info[0].select('span.article-meta-value')[0] else author
-        title = base_info[2].select('span.article-meta-value')[0].string if base_info[2].select('span.article-meta-value')[0] else title
-        date = base_info[3].select('span.article-meta-value')[0].string if base_info[3].select('span.article-meta-value')[0] else date
+        if base_info:
+            author = base_info[0].select('span.article-meta-value')[0].string if base_info[0].select('span.article-meta-value')[0] else author
+            title = base_info[2].select('span.article-meta-value')[0].string if base_info[2].select('span.article-meta-value')[0] else title
+            date = base_info[3].select('span.article-meta-value')[0].string if base_info[3].select('span.article-meta-value')[0] else date
         
         for info in base_info:
             info.extract()
@@ -68,7 +69,7 @@ def pttCrawler(broadName : str , keywords : str):
     
     articleList = list()
     
-    maxPage = 2
+    maxPage = 6
     for page in range(1,maxPage):
         resp = requests.get(
             url = f"https://www.ptt.cc/bbs/{broadName}/search?page="+ str(page) + f"&q={keywords}",
